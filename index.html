@@ -14,8 +14,12 @@
 	</script>
 	<div id="video_container">
 		<div id="video_wrapper">
+			<div id="play_wrapper">
+				<div id="play_button" class="glyphicon glyphicon-play"></div>
+			</div>
 			<div id="products_wrapper">
 				<div id="products_cart" class="glyphicon glyphicon-shopping-cart"></div>
+				<div id="products_container"></div>
 			</div>
 			<video id="video">
 				<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
@@ -44,7 +48,7 @@
 					You've added <span id="cart_items"></span> to the shopping cart
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="checkout" data-dismiss="modal">Checkout</button>
+					<button type="button" class="btn btn-primary" id="checkout">Checkout</button>
 					<button type="button" class="btn btn-default" id="replay_button" data-dismiss="modal"><span class="glyphicon glyphicon-repeat"></span></button>
 				</div>
 			</div>

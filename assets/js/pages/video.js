@@ -3,6 +3,7 @@ var time_coordinates = [];
 var items = [];
 var cart_items = [];
 var current_item = null;
+var device_height = ((document.body.clientWidth / 16) * 9);
 function init_acuity(data)
 {
 	var products = data.Products;
@@ -46,8 +47,11 @@ video_player.addEventListener('ended', function(){
 });
 
 $(document).ready(function(){
-	console.log(screen.width, screen.height);
+	device_height = ((document.body.clientWidth / 16) * 9);
 	init_acuity(chubbies_json);
+	console.log(device_height);
+	$('#video_wrapper').css('height', device_height +"px");
+
 	$('#product_modal').on('hidden.bs.modal', function (e) {
 		var video = $('#video');
 
@@ -56,6 +60,7 @@ $(document).ready(function(){
 			current_item = null;
 			video_playing = true;
 			video.trigger("play");
+			$('#products_container').html('');
 		}
 
 		console.log(cart_items);
@@ -88,39 +93,47 @@ $(document).ready(function(){
 
 		if(video_playing == false)
 		{
-			video_playing = true;
-			video.trigger("play");
+			$('#play_wrapper').hide();
+			if( checkForProducts(e, currentTime) == false)
+			{
+				video_playing = true;
+				video.trigger("play");
+			}
 		}
 		else
 		{
 			video_playing = false;
 			video.trigger("pause");
 
-			if( typeof time_coordinates[ currentTime ] != 'undefined')
-			{
-				var currentProduct = findProduct(e, time_coordinates[ currentTime ]);
-
-				$('#product_name, #product_price').html('');
-				if(currentProduct != null)
-				{
-					$('#product_name').text(items[currentProduct].Name);
-					$('#product_price').text(items[currentProduct].Price);
-					current_item = items[currentProduct];
-
-					$('#product_modal').modal({
-						backdrop : 'static',
-						keyboard : false
-					}).modal('show');
-				}
-			}
-			else
-			{
-				console.log('No item found');
-			}
+			checkForProducts(e, currentTime);
 		}
 	});
 });
 
+function checkForProducts(e, currentTime)
+{
+	if( typeof time_coordinates[ currentTime ] != 'undefined')
+	{
+		$('#product_name, #product_price, #products_container').html('');
+		var currentProduct = findProduct(e, time_coordinates[ currentTime ]);
+
+		if(currentProduct != null)
+		{
+			$('#product_name').text(items[currentProduct].Name);
+			$('#product_price').text(items[currentProduct].Price);
+			current_item = items[currentProduct];
+
+			$('#product_modal').modal({
+				backdrop : 'static',
+				keyboard : false
+			}).modal('show');
+
+			return true;
+		}
+	}
+
+	return false;
+}
 function showCheckout()
 {
 	var cart_text = (cart_items.length == 1) ? '1 item' : cart_items.length +' items';
@@ -140,6 +153,8 @@ function findProduct(e, products_json)
 
 		if( inside(e, product) )
 		{
+			var template = '<div style="position: absolute; left: '+ parseFloat(product.X1) +'%; top: '+ parseFloat(product.Y1) +'%; width: '+ (parseFloat(product.X2) - parseFloat(product.X1)) +'%; height: '+ (parseFloat(product.Y2) - parseFloat(product.Y1)) +'%; border: 2px solid yellow; z-index: 1500;"></div>';
+			$('#products_container').html(template);
 			return p_id;
 		}
 	}
