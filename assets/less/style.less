@@ -1,10 +1,4 @@
-*{
-	padding: 0px;
-	margin: 0px;
-}
 body{
-	padding: 0px;
-	margin: 0px !important;
 	width: 100vw;
 	height: 100vh;
 	width: 100%;
@@ -13,6 +7,7 @@ body{
 	#video_container{
 		width: 100%;
 		height: 100%;
+		overflow: hidden;
 		#video_wrapper{
 			width: 100%;
 			height: 100%;
@@ -22,6 +17,23 @@ body{
 				height: 100%;
 				position: absolute;
 				width: 100%;
+
+				#products_cart{
+					width: 64px;
+					height: 64px;
+					background: yellow;
+					border-radius: 100%;
+					position: absolute;
+					font-size: 20px;
+					text-align: center;
+					line-height: 64px;
+					right: 10px;
+					top: 10px;
+
+					&:empty{
+						display: none;
+					}
+				}
 			}
 
 			#video{

@@ -261,10 +261,11 @@ chubbies_json = {
 				]
 			}
 		],
-	"Items": [
-		{ "MeLikeyTheStripey" : {"Price": "64.50", "Url": "https://www.chubbiesshorts.com/products/the-me-likey-the-stripey-7-inseam?coll=d-the-swim-trunks&position=5", "Name": "MeLikeyTheStripey"} },
-		{ "NeonLights" : {"Price": "59.50", "Url": "https://www.chubbiesshorts.com/products/mens-navy-printed-neon-lights-swim-trunks?coll=d-the-swim-trunks&position=2", "Name": "NeonLights"} },
-		{ "TheAmericas" : {"Price": "59.50", "Url": "https://www.chubbiesshorts.com/products/the-mericas-swim-trunk?coll=d-the-swim-trunks&position=25", "Name": "TheAmericas"} },
-		{ "LosCalientes" : {"Price": "64.50", "Url": "https://www.chubbiesshorts.com/products/mens-neon-print-performance-swim-trunks?coll=d-the-swim-trunks&position=34", "Name": "LosCalientes"} }
-	]
+	"Items":
+		{
+			"MeLikeyTheStripey" : {"Price": "64.50", "Url": "https://www.chubbiesshorts.com/products/the-me-likey-the-stripey-7-inseam?coll=d-the-swim-trunks&position=5", "Name": "MeLikeyTheStripey"},
+			"NeonLights" : {"Price": "59.50", "Url": "https://www.chubbiesshorts.com/products/mens-navy-printed-neon-lights-swim-trunks?coll=d-the-swim-trunks&position=2", "Name": "NeonLights"},
+			"TheAmericas" : {"Price": "59.50", "Url": "https://www.chubbiesshorts.com/products/the-mericas-swim-trunk?coll=d-the-swim-trunks&position=25", "Name": "TheAmericas"},
+			"LosCalientes" : {"Price": "64.50", "Url": "https://www.chubbiesshorts.com/products/mens-neon-print-performance-swim-trunks?coll=d-the-swim-trunks&position=34", "Name": "LosCalientes"}
+		}
 }
