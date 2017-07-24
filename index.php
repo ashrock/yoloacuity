@@ -22,7 +22,7 @@
 					<div id="products_cart" class="glyphicon glyphicon-shopping-cart"></div>
 					<div id="products_container"></div>
 				</div>
-				<video id="video">
+				<video id="video" controls>
 					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
 				</video>
 			</div>
@@ -32,7 +32,9 @@
 				<div class="modal-content">
 					<div class="modal-body">
 						<span id="product_name"></span>
-						$<span id="product_price"></span>
+						<span class="price">
+							$<span id="product_price"></span>
+						</span>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="add_to_cart" data-dismiss="modal">Add to Cart</button>
@@ -44,13 +46,12 @@
 		<div class="modal fade" id="checkout_modal" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<div class="modal-header">Checkout</div>
-					<div class="modal-body">
-						You've added <span id="cart_items"></span> to the shopping cart
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="checkout">Checkout</button>
+					<div class="modal-header">
+						<button type="button" class="btn btn-primary" id="checkout"><span class="glyphicon glyphicon-shopping-cart"></span> <span id="cart_items"></span> Checkout</button>
 						<button type="button" class="btn btn-default" id="replay_button" data-dismiss="modal"><span class="glyphicon glyphicon-repeat"></span></button>
+					</div>
+					<div class="modal-body">
+						In-video shopping powered by <strong>Acuity</strong>
 					</div>
 				</div>
 			</div>
@@ -60,6 +61,6 @@
 		<div id="mobile_message">This website is only viewable in landscape mode</div>
 	</div>
 	<script src="./assets/js/pages/video.js" type="text/javascript"></script>
-	<script src="./assets/js/pages/chubbies_data.js" type="text/javascript"></script>
+	<script src="./assets/js/pages/chubbies_data_final.js" type="text/javascript"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ var items = [];
 var cart_items = [];
 var current_item = null;
 var device_height = ((document.body.clientWidth / 16) * 9);
+var device_width = document.body.clientWidth;
 function init_acuity(data)
 {
 	var products = data.Products;
@@ -45,11 +46,21 @@ var video_player =document.getElementById('video');
 video_player.addEventListener('ended', function(){
 	showCheckout();
 });
+video_player.addEventListener('playing', function(){
+	video_playing = true;
+	$('#play_wrapper').hide();
+});
+video_player.addEventListener('timeupdate', videoTimeUpdate, false);
+
+function videoTimeUpdate(e)
+{
+	//set controls settings to controls,this make controls show everytime this event is triggered
+	video_player.setAttribute("controls","controls");
+}
 
 $(document).ready(function(){
 	device_height = ((document.body.clientWidth / 16) * 9);
 	init_acuity(chubbies_json);
-	console.log(device_height);
 	$('#video_wrapper').css('height', device_height +"px");
 
 	$('#product_modal').on('hidden.bs.modal', function (e) {
@@ -62,8 +73,6 @@ $(document).ready(function(){
 			video.trigger("play");
 			$('#products_container').html('');
 		}
-
-		console.log(cart_items);
 	});
 
 	$('body').on('click', '#add_to_cart', function(){
@@ -81,20 +90,12 @@ $(document).ready(function(){
 
 	$('#video_wrapper').on('click', function(e){
 		var video = $('#video');
-		var rawTime = video[0].currentTime;
 		var currentTime = parseInt(video[0].currentTime * 24) ;
-		if(rawTime >= 4)
-		{
-			video[0].currentTime = 46.75;
-			video_playing = true;
-			video.trigger("play");
-			return;
-		}
 
-		if(video_playing == false)
+		if( checkForProducts(e, currentTime) == false)
 		{
 			$('#play_wrapper').hide();
-			if( checkForProducts(e, currentTime) == false)
+			if(video_playing == false)
 			{
 				video_playing = true;
 				video.trigger("play");
@@ -104,9 +105,9 @@ $(document).ready(function(){
 		{
 			video_playing = false;
 			video.trigger("pause");
-
-			checkForProducts(e, currentTime);
+			// checkForProducts(e, currentTime);
 		}
+
 	});
 });
 
@@ -127,6 +128,15 @@ function checkForProducts(e, currentTime)
 				backdrop : 'static',
 				keyboard : false
 			}).modal('show');
+			var modalWidth = 400;
+			var modalX = (e.pageX > (device_width/2)) ? e.pageX - (modalWidth + ((device_width*0.1)/2)) : e.pageX + ((device_width*0.1)/2);
+			var modalY = e.pageY - (device_height * 0.3);
+			var css_options = {
+				'width': modalWidth,
+				'left': modalX +'px',
+				'top': modalY +'px',
+			}
+			$('#product_modal').find('.modal-dialog').css(css_options);
 
 			return true;
 		}
@@ -134,9 +144,12 @@ function checkForProducts(e, currentTime)
 
 	return false;
 }
+
 function showCheckout()
 {
-	var cart_text = (cart_items.length == 1) ? '1 item' : cart_items.length +' items';
+	video_playing = false;
+	// var cart_text = (cart_items.length == 1) ? '1 item' : cart_items.length +' items';
+	var cart_text = cart_items.length;
 	$('#cart_items').text(cart_text);
 
 	$('#checkout_modal').modal({
@@ -153,8 +166,12 @@ function findProduct(e, products_json)
 
 		if( inside(e, product) )
 		{
-			var template = '<div style="position: absolute; left: '+ parseFloat(product.X1) +'%; top: '+ parseFloat(product.Y1) +'%; width: '+ (parseFloat(product.X2) - parseFloat(product.X1)) +'%; height: '+ (parseFloat(product.Y2) - parseFloat(product.Y1)) +'%; border: 2px solid yellow; z-index: 1500;"></div>';
+			var tap_width = device_width * 0.1;
+			var tap_radius = tap_width / 2;
+			// var template = '<div style="position: absolute; left: '+ parseFloat(product.X1) +'%; top: '+ parseFloat(product.Y1) +'%; width: '+ (parseFloat(product.X2) - parseFloat(product.X1)) +'%; height: '+ (parseFloat(product.Y2) - parseFloat(product.Y1)) +'%; border: 2px solid yellow; z-index: 1500;"></div>';
+			var template = '<div style="position: absolute; left: calc('+ e.pageX +'px - '+ tap_radius +'px); top: calc('+ e.pageY +'px - '+ tap_radius +'px); width: '+ tap_width +'px; height: '+ tap_width +'px; border: 4px solid white; background: rgba(255,255,255,0.5); border-radius: 100%; z-index: 1500;"></div>';
 			$('#products_container').html(template);
+
 			return p_id;
 		}
 	}
