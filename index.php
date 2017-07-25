@@ -61,6 +61,6 @@
 		<div id="mobile_message">This website is only viewable in landscape mode</div>
 	</div>
 	<script src="./assets/js/pages/video.js" type="text/javascript"></script>
-	<script src="./assets/js/pages/chubbies_data_final.js" type="text/javascript"></script>
+	<script src="./assets/js/pages/chubbies_data_full.js" type="text/javascript"></script>
 </body>
 </html>
