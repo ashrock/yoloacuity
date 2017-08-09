@@ -155,6 +155,7 @@ body #product_modal .modal-dialog .modal-content {
 body #product_modal .modal-dialog .modal-content .modal-body,
 body #product_modal .modal-dialog .modal-content .modal-footer {
   display: table-cell;
+  border: none;
 }
 body #product_modal .modal-dialog .modal-content .modal-body button,
 body #product_modal .modal-dialog .modal-content .modal-footer button {

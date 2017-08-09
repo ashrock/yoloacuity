@@ -12,42 +12,6 @@ var scrub_time = 0;
 var video_started = false;
 var mouseupX = 0;
 var drag_initiated = false;
-function init_acuity(data)
-{
-	var products = data.Products;
-	items = data.Items;
-	// var time_coordinates = [];
-	for(var p_id in products)
-	{
-		var product = products[p_id];
-		var product_name = Object.keys(product)[0];
-		var product_coordinates = product[ product_name ];
-
-		for(var t_id in product_coordinates)
-		{
-			if(typeof time_coordinates[ product_coordinates[t_id].FrameNum ] == 'undefined')
-			{
-				time_coordinates[ product_coordinates[t_id].FrameNum ] = {};
-			}
-
-			if(!time_coordinates[ product_coordinates[t_id].FrameNum ].hasOwnProperty( product_name ))
-			{
-				time_coordinates[ product_coordinates[t_id].FrameNum ][ product_name ] = offsetCoordinates( product_coordinates[t_id] );
-			}
-		}
-	}
-}
-
-function offsetCoordinates(coords)
-{
-	var offsetCoords = {
-		"X1" : (coords.X1 / 1920).toFixed(2) * 100,
-		"X2" : (coords.X2 / 1920).toFixed(2) * 100,
-		"Y1" : (coords.Y1 / 1080).toFixed(2) * 100,
-		"Y2" : (coords.Y2 / 1080).toFixed(2) * 100
-	}
-	return offsetCoords;
-}
 
 var video_player =document.getElementById('video');
 video_player.addEventListener('ended', function(){
@@ -58,13 +22,7 @@ video_player.addEventListener('playing', function(){
 	$('#play_wrapper').hide();
 });
 video_player.addEventListener('timeupdate', videoTimeUpdate, false);
-
-function videoTimeUpdate(e)
-{
-	//set controls settings to controls,this make controls show everytime this event is triggered
-	video_player.setAttribute("controls","controls");
-}
-
+var placeholder = false;
 $(document).ready(function(){
 	device_height = ((document.body.clientWidth / 16) * 9);
 	init_acuity(chubbies_json);
@@ -108,27 +66,21 @@ $(document).ready(function(){
 			return;
 		}
 
-		console.log('time: '+ currentTime);
-		console.log('PREVIOUS STATE: allow_drag: '+ allow_drag, 'mousedown: '+ mousedown, 'drag_initiated: '+ drag_initiated);
-		if(drag_initiated)
+		if(drag_initiated == true)
 		{
-			mousedown = false;
 			drag_initiated = false;
-			allow_drag = false;
-			console.log('RESET STATE: allow_drag: '+ allow_drag, 'mousedown: '+ mousedown, 'drag_initiated: '+ drag_initiated);
 			return;
 		}
-		var item_match = checkForProducts(e, currentTime);
-		console.log('has match: '+ item_match);
 
-		if( item_match == false)
+		var has_item_match = checkForProducts(e, currentTime);
+
+		if( has_item_match == false)
 		{
 			if(allow_drag == false)
 			{
 				allow_drag = true;
 				video_playing = false;
 				video.trigger("pause");
-				console.log('TRIGGER STATE: allow_drag: '+ allow_drag, 'mousedown: '+ mousedown, 'drag_initiated: '+ drag_initiated)
 			}
 			else
 			{
@@ -138,10 +90,8 @@ $(document).ready(function(){
 					allow_drag = false;
 					video_playing = true;
 					video.trigger("play");
-					console.log('TRIGGER STATE 2: allow_drag: '+ allow_drag, 'mousedown: '+ mousedown, 'drag_initiated: '+ drag_initiated)
 					return;
 				}
-				console.log('TRIGGER STATE 3: allow_drag: '+ allow_drag, 'mousedown: '+ mousedown, 'drag_initiated: '+ drag_initiated)
 			}
 		}
 		else
@@ -152,85 +102,60 @@ $(document).ready(function(){
 		}
 	});
 
-	$('body').on('mousemove',function(e){
-		if(mousedown == true && allow_drag == true)
-		{
-			e.stopPropagation();
-			var pageX = (e.type == "touchmove") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
-			var move_left = ( mouseX >= pageX );
-			var adjusted_scrub_time = scrub_time;
-			var time_change = Math.abs( parseInt(mouseX) - parseInt(pageX) ) / device_width;
-			var video = $('#video');
-			if(move_left)
-			{
-				adjusted_scrub_time -= (video[0].duration * time_change);
-			}
-			else
-			{
-				adjusted_scrub_time += (video[0].duration * time_change);
-			}
+	$('body').on('mousemove', detect_mousemove).on('touchmove', detect_mousemove);
 
-			video[0].currentTime = adjusted_scrub_time;
-			drag_initiated = true;
-		}
-	}).on('touchmove',function(e){
-		if(mousedown == true && allow_drag == true)
-		{
-			var pageX = (e.type == "touchmove") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
-			var move_left = ( mouseX >= pageX );
-			var adjusted_scrub_time = scrub_time;
-			var time_change = Math.abs( parseInt(mouseX) - parseInt(pageX) ) / device_width;
-			var video = $('#video');
-			if(move_left)
-			{
-				adjusted_scrub_time -= (video[0].duration * time_change);
-			}
-			else
-			{
-				adjusted_scrub_time += (video[0].duration * time_change);
-			}
+	$('body').on('mousedown',detect_mousedown ).on('touchstart', detect_mousedown);
 
-			video[0].currentTime = adjusted_scrub_time;
-			drag_initiated = true;
-		}
-	});
-
-	$('body').on('mousedown',function(e){
-		if(allow_drag)
+	function detect_mouseup(e){
+		if(e.type == "mouseup")
 		{
-			e.stopPropagation();
-			mousedown = true;
-			var pageX = (e.type == "touchstart") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
-			mouseX = pageX;
-			var video = $('#video');
-			scrub_time = parseInt(video[0].currentTime);
+			e.stopImmediatePropagation();
 		}
-	}).on('touchstart',function(e){
-		if(allow_drag)
-		{
-			e.stopPropagation();
-			mousedown = true;
-			var pageX = (e.type == "touchstart") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
-			mouseX = pageX;
-			var video = $('#video');
-			scrub_time = parseInt(video[0].currentTime);
-		}
-	});
-
-	$('body').on('mouseup',function(e){
-		if(allow_drag)
-		{
-			e.stopPropagation();
-			mousedown = false;
-			mouseX = 0;
-		}
-	}).on('touchend',function(e){
-		e.stopPropagation();
 		mousedown = false;
 		mouseX = 0;
-	});
+	}
+
+	$('body').on('mouseup', detect_mouseup).on('touchend', detect_mouseup);
 
 });
+
+function detect_mousemove(e){
+	if(mousedown == true && allow_drag == true)
+	{
+		var pageX = (e.type == "touchmove") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
+		var move_left = ( mouseX >= pageX );
+		var adjusted_scrub_time = scrub_time;
+		var time_change = Math.abs( parseInt(mouseX) - parseInt(pageX) ) / device_width;
+		var video = $('#video');
+		if(move_left)
+		{
+			adjusted_scrub_time -= (video[0].duration * time_change);
+		}
+		else
+		{
+			adjusted_scrub_time += (video[0].duration * time_change);
+		}
+
+		video[0].currentTime = adjusted_scrub_time;
+
+		if(e.type == "mousemove")
+		{
+			drag_initiated = true;
+		}
+	}
+}
+
+function detect_mousedown(e){
+	if(allow_drag)
+	{
+		e.stopPropagation();
+		mousedown = true;
+		var pageX = (e.type == "touchstart") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
+		mouseX = pageX;
+		var video = $('#video');
+		scrub_time = parseInt(video[0].currentTime);
+	}
+}
 
 function checkForProducts(e, currentTime)
 {
@@ -275,6 +200,49 @@ function checkForProducts(e, currentTime)
 	}
 
 	return false;
+}
+
+function videoTimeUpdate(e)
+{
+	//set controls settings to controls,this make controls show everytime this event is triggered
+	video_player.setAttribute("controls","controls");
+}
+
+function init_acuity(data)
+{
+	var products = data.Products;
+	items = data.Items;
+	// var time_coordinates = [];
+	for(var p_id in products)
+	{
+		var product = products[p_id];
+		var product_name = Object.keys(product)[0];
+		var product_coordinates = product[ product_name ];
+
+		for(var t_id in product_coordinates)
+		{
+			if(typeof time_coordinates[ product_coordinates[t_id].FrameNum ] == 'undefined')
+			{
+				time_coordinates[ product_coordinates[t_id].FrameNum ] = {};
+			}
+
+			if(!time_coordinates[ product_coordinates[t_id].FrameNum ].hasOwnProperty( product_name ))
+			{
+				time_coordinates[ product_coordinates[t_id].FrameNum ][ product_name ] = offsetCoordinates( product_coordinates[t_id] );
+			}
+		}
+	}
+}
+
+function offsetCoordinates(coords)
+{
+	var offsetCoords = {
+		"X1" : (coords.X1 / 1920).toFixed(2) * 100,
+		"X2" : (coords.X2 / 1920).toFixed(2) * 100,
+		"Y1" : (coords.Y1 / 1080).toFixed(2) * 100,
+		"Y2" : (coords.Y2 / 1080).toFixed(2) * 100
+	}
+	return offsetCoords;
 }
 
 function showCheckout()

@@ -24,7 +24,7 @@
 					<div id="products_cart" class="glyphicon glyphicon-shopping-cart"></div>
 					<div id="products_container"></div>
 				</div>
-				<video id="video" controls muted>
+				<video id="video" controls muted preload="auto">
 					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
 				</video>
 			</div>
