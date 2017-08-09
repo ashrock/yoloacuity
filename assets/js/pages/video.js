@@ -181,10 +181,14 @@ function checkForProducts(e, currentTime)
 				keyboard : false
 			}).modal('show');
 
-			var line_width = device_width * 0.008;
-			var modalWidth = 300;
-			var modalX = (e.pageX > (device_width/2)) ? e.pageX - (modalWidth + ((device_width*0.1)/2)) : e.pageX + ((device_width*0.1)/2);
+			var modalWidth = device_width * 0.4;
+			var line_width = device_width * 0.005;
 			var lineX = (e.pageX > (device_width/2)) ? e.pageX - ((device_width*0.1)/2) : e.pageX + ((device_width*0.1)/2);
+			var lineX1 = (e.pageX > (device_width/2)) ? lineX - line_width : lineX;
+			var lineX2 = (e.pageX > (device_width/2)) ? lineX : lineX + line_width;
+			console.log(lineX1);
+			// var modalX = (e.pageX > (device_width/2)) ? e.pageX - (modalWidth + ((device_width*0.1)/2)) : e.pageX + ((device_width*0.1)/2);
+			var modalX = (e.pageX > (device_width/2)) ? (lineX1 - modalWidth) + line_width : lineX1;
 			var modalY = e.pageY - (device_height * 0.4);
 			modalY = (modalY <= 20) ? 20 : modalY;
 			var css_options = {
@@ -193,8 +197,6 @@ function checkForProducts(e, currentTime)
 				'top':  modalY +'px',
 			}
 
-			var lineX1 = (e.pageX > (device_width/2)) ? lineX - line_width : lineX;
-			var lineX2 = (e.pageX > (device_width/2)) ? lineX : lineX + line_width;
 			$('#product_modal').find('.modal-dialog').css(css_options);
 			var init_y = parseFloat(e.pageY) - tap_radius;
 			var path = "polygon("+ e.pageX +"px "+ init_y +"px, "+ (parseFloat(e.pageX)-line_width) +"px "+ init_y +"px, "+ parseFloat(lineX1) +"px "+ parseFloat(modalY+25) +"px, "+ parseFloat(lineX2) +"px "+ parseFloat(modalY+25)+"px)";
