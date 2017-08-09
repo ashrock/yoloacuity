@@ -7,6 +7,10 @@ body {
 body #warning-message {
   display: none;
 }
+body video::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: 1 !important;
+}
 @media only screen and (orientation: portrait) {
   body #wrapper {
     display: none;
@@ -77,15 +81,15 @@ body #wrapper #video_container #video_wrapper #products_wrapper #products_cart {
   background: yellow;
   border-radius: 100%;
   font-family: Arial;
-  font-size: 24px;
+  font-size: 2vw;
   font-weight: bold;
-  height: 64px;
-  line-height: 64px;
+  height: 6vw;
+  line-height: 6vw;
   position: absolute;
   right: 15px;
   text-align: center;
   top: 7%;
-  width: 64px;
+  width: 6vw;
 }
 body #wrapper #video_container #video_wrapper #products_wrapper #products_cart:before {
   font-family: 'Glyphicons Halflings';
