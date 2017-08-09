@@ -154,18 +154,21 @@ body #product_modal .modal-dialog {
 body #product_modal .modal-dialog .modal-content {
   border-radius: 20px;
   display: table;
+  border: 5px solid #fff;
+  box-shadow: none;
   background-color: rgba(255, 255, 255, 0.85);
 }
 body #product_modal .modal-dialog .modal-content .modal-body,
 body #product_modal .modal-dialog .modal-content .modal-footer {
   display: table-cell;
   border: none;
+  padding: 5px;
 }
 body #product_modal .modal-dialog .modal-content .modal-body button,
 body #product_modal .modal-dialog .modal-content .modal-footer button {
   width: 100%;
   margin: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border-radius: 30px;
 }
 body #product_modal .modal-dialog .modal-content .modal-body #product_name,
@@ -209,4 +212,11 @@ body #product_modal .modal-dialog .modal-content .modal-body {
 }
 body .modal {
   position: absolute !important;
+}
+body .modal.fade {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
 }

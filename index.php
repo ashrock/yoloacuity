@@ -24,12 +24,12 @@
 					<div id="products_cart" class="glyphicon glyphicon-shopping-cart"></div>
 					<div id="products_container"></div>
 				</div>
-				<video id="video" controls muted preload="auto">
+				<video id="video" controls muted>
 					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
 				</video>
 			</div>
 		</div>
-		<div class="modal fade" id="product_modal" tabindex="-1" role="dialog">
+		<div class="modal" id="product_modal" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-body">
@@ -40,7 +40,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="add_to_cart" data-dismiss="modal">Add to Cart</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+						<button type="button" class="btn btn-default" id="dismiss_cart" data-dismiss="modal">Dismiss</button>
 					</div>
 				</div>
 			</div>

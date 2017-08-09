@@ -12,6 +12,8 @@ var scrub_time = 0;
 var video_started = false;
 var mouseupX = 0;
 var drag_initiated = false;
+var tap_width = device_width * 0.08;
+var tap_radius = tap_width / 2;
 
 var video_player =document.getElementById('video');
 video_player.addEventListener('ended', function(){
@@ -22,30 +24,32 @@ video_player.addEventListener('playing', function(){
 	$('#play_wrapper').hide();
 });
 video_player.addEventListener('timeupdate', videoTimeUpdate, false);
-var placeholder = false;
+function resume_playback()
+{
+	var video = $('#video');
+
+	if(video_playing == false)
+	{
+		current_item = null;
+		video_playing = true;
+		$('#line_layer').removeClass('active');
+		video.trigger("play");
+		$('#products_container').html('');
+	}
+}
 $(document).ready(function(){
 	device_height = ((document.body.clientWidth / 16) * 9);
 	init_acuity(chubbies_json);
 	$('#video_wrapper').css('height', device_height +"px");
 
-	$('#product_modal').on('hidden.bs.modal', function (e) {
-		var video = $('#video');
+	$('body').on('click','#dismiss_cart', resume_playback);
 
-		if(video_playing == false)
-		{
-			current_item = null;
-			video_playing = true;
-			$('#line_layer').removeClass('active');
-			video.trigger("play");
-			$('#products_container').html('');
-		}
-	});
-
-	$('body').on('click', '#add_to_cart', function(){
+	$('body').on('click', '#add_to_cart', function(e){
 		if(current_item != null)
 		{
 			cart_items.push(current_item);
 			$('#products_cart').text(cart_items.length);
+			setTimeout(resume_playback, 150);
 		}
 	});
 
@@ -164,13 +168,13 @@ function checkForProducts(e, currentTime)
 		$('#product_name, #product_price, #products_container').html('');
 		var currentProduct = findProduct(e, time_coordinates[ currentTime ]);
 		$('#line_layer').removeClass('active');
-
 		if(currentProduct != null)
 		{
 			$('#line_layer').addClass('active');
 			$('#product_name').text(items[currentProduct].Name);
 			$('#product_price').text(items[currentProduct].Price);
 			current_item = items[currentProduct];
+			console.log(current_item);
 
 			$('#product_modal').modal({
 				backdrop : 'static',
@@ -192,7 +196,8 @@ function checkForProducts(e, currentTime)
 			var lineX1 = (e.pageX > (device_width/2)) ? lineX - line_width : lineX;
 			var lineX2 = (e.pageX > (device_width/2)) ? lineX : lineX + line_width;
 			$('#product_modal').find('.modal-dialog').css(css_options);
-			var path = "polygon("+ e.pageX +"px "+ e.pageY +"px, "+ (parseFloat(e.pageX)-line_width) +"px "+ (parseFloat(e.pageY)) +"px, "+ parseFloat(lineX1) +"px "+ parseFloat(modalY+25) +"px, "+ parseFloat(lineX2) +"px "+ parseFloat(modalY+25)+"px)";
+			var init_y = parseFloat(e.pageY) - tap_radius;
+			var path = "polygon("+ e.pageX +"px "+ init_y +"px, "+ (parseFloat(e.pageX)-line_width) +"px "+ init_y +"px, "+ parseFloat(lineX1) +"px "+ parseFloat(modalY+25) +"px, "+ parseFloat(lineX2) +"px "+ parseFloat(modalY+25)+"px)";
 			$('#line_layer').css("clip-path", path );
 
 			return true;
@@ -266,8 +271,7 @@ function findProduct(e, products_json)
 
 		if( inside(e, product) )
 		{
-			var tap_width = device_width * 0.08;
-			var tap_radius = tap_width / 2;
+
 			// var template = '<div style="position: absolute; left: '+ parseFloat(product.X1) +'%; top: '+ parseFloat(product.Y1) +'%; width: '+ (parseFloat(product.X2) - parseFloat(product.X1)) +'%; height: '+ (parseFloat(product.Y2) - parseFloat(product.Y1)) +'%; border: 2px solid yellow; z-index: 1500;"></div>';
 			var template = '<div style="position: absolute; left: calc('+ e.pageX +'px - '+ tap_radius +'px); top: calc('+ e.pageY +'px - '+ tap_radius +'px); width: '+ tap_width +'px; height: '+ tap_width +'px; border: 4px solid white; background: rgba(255,255,255,0.5); border-radius: 100%; z-index: 1500;"></div>';
 			$('#products_container').html(template);
