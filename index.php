@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="UTF-8">
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
 	<title>Acuity</title>
 	<link rel="stylesheet" href="./assets/css/style.css">
 	<script src="./assets/js/vendor/jquery-3.2.1.min.js"></script>
@@ -19,10 +20,11 @@
 					<div id="play_button" class="glyphicon glyphicon-play"></div>
 				</div>
 				<div id="products_wrapper">
+					<div id="line_layer"></div>
 					<div id="products_cart" class="glyphicon glyphicon-shopping-cart"></div>
 					<div id="products_container"></div>
 				</div>
-				<video id="video" controls>
+				<video id="video" controls muted>
 					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
 				</video>
 			</div>
@@ -33,7 +35,7 @@
 					<div class="modal-body">
 						<span id="product_name"></span>
 						<span class="price">
-							$<span id="product_price"></span>
+							<span class="price_tag"></span><span>$</span><span id="product_price"></span>
 						</span>
 					</div>
 					<div class="modal-footer">

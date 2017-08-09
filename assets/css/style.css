@@ -57,6 +57,17 @@ body #wrapper #video_container #video_wrapper #play_wrapper #play_button {
   font-size: 64px;
   vertical-align: middle;
 }
+body #wrapper #video_container #video_wrapper #line_layer {
+  position: absolute;
+  display: none;
+  clip-path: unset;
+}
+body #wrapper #video_container #video_wrapper #line_layer.active {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
 body #wrapper #video_container #video_wrapper #products_wrapper {
   height: inherit;
   position: absolute;
@@ -95,6 +106,7 @@ body #checkout_modal {
 }
 body #checkout_modal .modal-dialog {
   width: 450px;
+  margin: 20px auto;
 }
 body #checkout_modal .modal-dialog .modal-content {
   border-radius: 20px;
@@ -153,11 +165,24 @@ body #product_modal .modal-dialog .modal-content .modal-footer button {
 }
 body #product_modal .modal-dialog .modal-content .modal-body #product_name,
 body #product_modal .modal-dialog .modal-content .modal-footer #product_name {
-  font-size: 2em;
+  font-size: 1em;
+  font-weight: bold;
+  display: block;
 }
 body #product_modal .modal-dialog .modal-content .modal-body .price,
 body #product_modal .modal-dialog .modal-content .modal-footer .price {
-  font-size: 3em;
+  font-size: 2em;
+}
+body #product_modal .modal-dialog .modal-content .modal-body .price *,
+body #product_modal .modal-dialog .modal-content .modal-footer .price * {
+  display: inline-block;
+}
+body #product_modal .modal-dialog .modal-content .modal-body .price .price_tag,
+body #product_modal .modal-dialog .modal-content .modal-footer .price .price_tag {
+  background: url('../img/price_tag.png') no-repeat;
+  background-size: cover;
+  width: 28px;
+  height: 28px;
 }
 body #product_modal .modal-dialog .modal-content .modal-body #add_to_cart,
 body #product_modal .modal-dialog .modal-content .modal-footer #add_to_cart {
@@ -165,6 +190,18 @@ body #product_modal .modal-dialog .modal-content .modal-footer #add_to_cart {
   background: #FFC000;
   border-color: #FFC000;
 }
+body #product_modal .modal-dialog .modal-content .modal-body button,
+body #product_modal .modal-dialog .modal-content .modal-footer button {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+body #product_modal .modal-dialog .modal-content .modal-body button:first-child,
+body #product_modal .modal-dialog .modal-content .modal-footer button:first-child {
+  margin-top: 0;
+}
 body #product_modal .modal-dialog .modal-content .modal-body {
   width: 60%;
+}
+body .modal {
+  position: absolute !important;
 }
