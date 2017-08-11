@@ -1,0 +1,110 @@
+input[type="text"],
+input[type="email"],
+input[type="submit"] {
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #E1E1E1;
+}
+button {
+  border-radius: 3px;
+  border: none;
+  background: #C8C8C8;
+  color: #fff;
+}
+#header {
+  padding: 60px;
+  background-image: url('https://cdn.shopify.com/s/files/1/0077/0432/files/checkout_header_image_194.jpg?6243895792212258216');
+  background-position: 50%;
+  background-attachment: scroll;
+  background-size: cover;
+  padding: 84px 0px 28px;
+  height: 170px;
+}
+#checkout_form {
+  display: table;
+  width: 100%;
+}
+#checkout_form #customer_information_block {
+  display: table-cell;
+  width: 50%;
+  text-align: right;
+  padding: 40px;
+}
+#checkout_form #customer_information_block > * {
+  text-align: left;
+  width: 550px;
+  display: inline-block;
+}
+#checkout_form #customer_information_block h2 {
+  font-size: 1.28571em;
+}
+#checkout_form #customer_information_block .breadcrumbs_list {
+  list-style: none;
+  padding: 0px;
+}
+#checkout_form #customer_information_block .breadcrumbs_list li {
+  display: inline-block;
+}
+#checkout_form #customer_information_block #customer_info_list {
+  list-style: none;
+  padding-left: 0;
+}
+#checkout_form #customer_information_block #customer_info_list li {
+  padding: 0.45em 0px;
+}
+#checkout_form #customer_information_block #customer_info_list li input {
+  display: table-cell;
+}
+#checkout_form #products_information_block {
+  background: #FAFAFA;
+  border-left: 1px solid #E1E1E1;
+  display: table-cell;
+  width: 50%;
+  text-align: left;
+  padding: 40px;
+}
+#checkout_form #products_information_block > * {
+  width: 550px;
+  text-align: left;
+  border-top: 1px solid #E1E1E1;
+}
+#checkout_form #products_information_block > *:first-child {
+  border-top: none;
+}
+#checkout_form #products_information_block #products_list {
+  list-style: none;
+  padding-left: 0;
+  padding-bottom: 20px;
+  margin-bottom: 0;
+}
+#checkout_form #products_information_block #products_list li > * {
+  display: table-cell;
+}
+#checkout_form #products_information_block #code_block {
+  padding: 20px 0px;
+  display: table;
+}
+#checkout_form #products_information_block #code_block * {
+  display: table-cell;
+  padding: 10px;
+}
+#checkout_form #products_information_block #code_block input {
+  width: 82.7%;
+}
+#checkout_form #products_information_block #code_block button {
+  margin-left: 10px;
+  width: 85px;
+}
+#checkout_form #products_information_block #checkout_table tr td {
+  padding: 10px 0px;
+  text-align: right;
+}
+#checkout_form #products_information_block #checkout_table tr td:first-child {
+  text-align: left;
+}
+#checkout_form #products_information_block #checkout_table tr#total_price {
+  border-top: 1px solid #E1E1E1;
+}
+#checkout_form #products_information_block #checkout_table tr#total_price td {
+  padding: 20px 0px;
+}
