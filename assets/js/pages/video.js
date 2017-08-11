@@ -1,3 +1,19 @@
+function detectmob()
+{
+	if( navigator.userAgent.match(/Android/i)
+		|| navigator.userAgent.match(/webOS/i)
+		|| navigator.userAgent.match(/iPhone/i)
+		|| navigator.userAgent.match(/iPad/i)
+		|| navigator.userAgent.match(/iPod/i)
+		|| navigator.userAgent.match(/BlackBerry/i)
+		|| navigator.userAgent.match(/Windows Phone/i)
+	){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 var video_playing = false;
@@ -17,7 +33,7 @@ var drag_initiated = false;
 var tap_width = device_width * 0.08;
 var tap_radius = tap_width / 2;
 
-var video_player =document.getElementById('video');
+var video_player = document.getElementById('video');
 video_player.addEventListener('ended', function(){
 	showCheckout();
 });
@@ -78,7 +94,7 @@ function detect_mousemove(e){
 		var adjusted_scrub_time = scrub_time;
 		var time_change = Math.abs( parseFloat(mouseX) - parseFloat(pageX) ) / device_width;
 		var video = $('#video');
-		// console.log(time_change, video[0].playbackRate);
+
 		if(move_left)
 		{
 			adjusted_scrub_time -= (video[0].duration * time_change);
@@ -88,8 +104,9 @@ function detect_mousemove(e){
 			adjusted_scrub_time += (video[0].duration * time_change);
 		}
 		adjusted_scrub_time =parseFloat( (adjusted_scrub_time > 0) ? adjusted_scrub_time : 0 );
-		console.log(adjusted_scrub_time.toFixed(3));
 		video[0].currentTime = adjusted_scrub_time;
+		$('#video').trigger("play");
+
 		$('#playback_container').css('width', ((adjusted_scrub_time/video[0].duration) * 100) +"%" );
 
 		if(e.type == "mousemove")
@@ -118,6 +135,7 @@ function detect_mousedown(e){
 	{
 		video_playing = true;
 		video_started = true;
+		video.prop("volume", 0.25);
 		video.trigger("play");
 		return;
 	}
@@ -185,7 +203,7 @@ function detect_mouseup(e){
 	{
 		allow_drag = false;
 		video_playing = true;
-		$('#video').trigger("play");
+		// $('#video').trigger("play");
 	}
 }
 

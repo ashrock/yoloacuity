@@ -101,6 +101,7 @@ body #wrapper #video_container #video_wrapper #products_wrapper #playback_contai
   background: #000000;
   position: absolute;
   opacity: 0;
+  display: none;
 }
 body #wrapper #video_container #video_wrapper #products_wrapper #playback_container.active {
   opacity: 0.5;

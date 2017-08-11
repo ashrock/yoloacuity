@@ -26,7 +26,7 @@
 					<div id="products_container"></div>
 					<div id="playback_container" class="active"></div>
 				</div>
-				<video id="video" playsinline muted>
+				<video id="video" preload="metadata" playsinline>
 					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
 				</video>
 			</div>
@@ -65,6 +65,6 @@
 		<div id="mobile_message">This website is only viewable in landscape mode</div>
 	</div>
 	<script src="./assets/js/pages/video.js" type="text/javascript"></script>
-	<script src="./assets/js/pages/chubbies_data_full.js" type="text/javascript"></script>
+	<script src="./assets/js/pages/chubbies_data_8.js" type="text/javascript"></script>
 </body>
 </html>
