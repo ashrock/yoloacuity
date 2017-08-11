@@ -91,9 +91,6 @@ body{
 							font-family: 'Glyphicons Halflings';
 							margin-right: 3px;
 						}
-						&:empty{
-							display: none;
-						}
 					}
 				}
 
@@ -153,6 +150,7 @@ body{
 			}
 		}
 	}
+
 	#product_modal{
 		background: transparent;
 		.modal-dialog{
@@ -212,6 +210,15 @@ body{
 
 				.modal-body{
 					width: 60%;
+				}
+
+				@media screen and (max-width: 719px){
+					#product_name{
+						font-size: 1em;
+					}
+					.price{
+						font-size: 1.75em;
+					}
 				}
 			}
 		}

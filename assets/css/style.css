@@ -95,9 +95,6 @@ body #wrapper #video_container #video_wrapper #products_wrapper #products_cart:b
   font-family: 'Glyphicons Halflings';
   margin-right: 3px;
 }
-body #wrapper #video_container #video_wrapper #products_wrapper #products_cart:empty {
-  display: none;
-}
 body #wrapper #video_container #video_wrapper #video {
   width: 100%;
   height: 100%;
@@ -211,6 +208,14 @@ body #product_modal .modal-dialog .modal-content .modal-footer button:first-chil
 }
 body #product_modal .modal-dialog .modal-content .modal-body {
   width: 60%;
+}
+@media screen and (max-width: 719px) {
+  body #product_modal .modal-dialog .modal-content #product_name {
+    font-size: 1em;
+  }
+  body #product_modal .modal-dialog .modal-content .price {
+    font-size: 1.75em;
+  }
 }
 body .modal {
   position: absolute !important;

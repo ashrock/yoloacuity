@@ -21,10 +21,10 @@
 				</div>
 				<div id="products_wrapper">
 					<div id="line_layer"></div>
-					<div id="products_cart" class="glyphicon glyphicon-shopping-cart"></div>
+					<div id="products_cart" class="glyphicon glyphicon-shopping-cart">0</div>
 					<div id="products_container"></div>
 				</div>
-				<video id="video" controls muted>
+				<video id="video" playsinline muted>
 					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
 				</video>
 			</div>
@@ -53,7 +53,7 @@
 						<button type="button" class="btn btn-default" id="replay_button" data-dismiss="modal"><span class="glyphicon glyphicon-repeat"></span></button>
 					</div>
 					<div class="modal-body">
-						In-video shopping powered by <strong>Acuity</strong>
+						In-video shopping powered by <strong>Acuity.ai</strong>
 					</div>
 				</div>
 			</div>
