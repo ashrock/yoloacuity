@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="./assets/css/style.css">
 	<script src="./assets/js/vendor/jquery-3.2.1.min.js"></script>
 	<script src="./assets/js/vendor/bootstrap/bootstrap.min.js"></script>
+	<script src="./assets/js/vendor/moment.js"></script>
 	<link rel="stylesheet" href="./assets/css/vendor/bootstrap/bootstrap.css">
 </head>
 <body>
@@ -23,6 +24,7 @@
 					<div id="line_layer"></div>
 					<div id="products_cart" class="glyphicon glyphicon-shopping-cart">0</div>
 					<div id="products_container"></div>
+					<div id="playback_container" class="active"></div>
 				</div>
 				<video id="video" playsinline muted>
 					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>

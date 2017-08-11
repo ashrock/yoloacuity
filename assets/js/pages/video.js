@@ -76,9 +76,9 @@ function detect_mousemove(e){
 		var pageX = (e.type == "touchmove") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
 		var move_left = ( mouseX >= pageX );
 		var adjusted_scrub_time = scrub_time;
-		var time_change = Math.abs( parseInt(mouseX) - parseInt(pageX) ) / device_width;
-		var video = $('#video');+
-
+		var time_change = Math.abs( parseFloat(mouseX) - parseFloat(pageX) ) / device_width;
+		var video = $('#video');
+		// console.log(time_change, video[0].playbackRate);
 		if(move_left)
 		{
 			adjusted_scrub_time -= (video[0].duration * time_change);
@@ -87,8 +87,10 @@ function detect_mousemove(e){
 		{
 			adjusted_scrub_time += (video[0].duration * time_change);
 		}
-
+		adjusted_scrub_time =parseFloat( (adjusted_scrub_time > 0) ? adjusted_scrub_time : 0 );
+		console.log(adjusted_scrub_time.toFixed(3));
 		video[0].currentTime = adjusted_scrub_time;
+		$('#playback_container').css('width', ((adjusted_scrub_time/video[0].duration) * 100) +"%" );
 
 		if(e.type == "mousemove")
 		{
@@ -97,34 +99,11 @@ function detect_mousemove(e){
 	}
 }
 
-function detect_mouseup(e){
-	mousedown = false;
-	mouseX = 0;
-
-	if( $(e.target).attr('id') == 'checkout' || $(e.target).hasClass('glyphicon-repeat') )
-	{
-		mousedown = false;
-		allow_drag = false;
-		return;
-	}
-
-	if(e.type == "mouseup")
-	{
-		e.stopImmediatePropagation();
-	}
-
-	if(allow_drag)
-	{
-		allow_drag = false;
-		video_playing = true;
-		$('#video').trigger("play");
-	}
-}
-
 function detect_mousedown(e){
 	var video = $('#video');
 	var raw_current_time = video[0].currentTime;
 	var currentTime = parseInt(raw_current_time * 24) ;
+
 	if( $(e.target).attr('id') == 'checkout' || $(e.target).hasClass('glyphicon-repeat') )
 	{
 		return;
@@ -151,6 +130,7 @@ function detect_mousedown(e){
 	var has_item_match = checkForProducts(e, currentTime);
 	if( has_item_match == false)
 	{
+		$('#playback_container').addClass('active');
 		if(allow_drag == false)
 		{
 			allow_drag = true;
@@ -168,6 +148,7 @@ function detect_mousedown(e){
 	if(allow_drag)
 	{
 		e.stopPropagation();
+		video[0].playbackRate = 0.25;
 		mousedown = true;
 		var pageX = (e.type == "touchstart") ? e.originalEvent.changedTouches[0].pageX : e.pageX;
 		mouseX = pageX;
@@ -175,6 +156,39 @@ function detect_mousedown(e){
 		scrub_time = parseInt(video[0].currentTime);
 	}
 }
+function detect_mouseup(e){
+	var video = $('#video');
+	video[0].playbackRate = 1;
+	var raw_current_time = video[0].currentTime;
+	mousedown = false;
+	mouseX = 0;
+	$('#playback_container').removeClass('active');
+
+	if(video[0].duration == raw_current_time)
+	{
+		return;
+	}
+
+	if( $(e.target).attr('id') == 'checkout' || $(e.target).hasClass('glyphicon-repeat') )
+	{
+		mousedown = false;
+		allow_drag = false;
+		return;
+	}
+
+	if(e.type == "mouseup")
+	{
+		e.stopImmediatePropagation();
+	}
+
+	if(allow_drag)
+	{
+		allow_drag = false;
+		video_playing = true;
+		$('#video').trigger("play");
+	}
+}
+
 
 function checkForProducts(e, currentTime)
 {
