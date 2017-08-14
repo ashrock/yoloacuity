@@ -56,7 +56,15 @@ function resume_playback()
 		$('#products_container').html('');
 	}
 }
-
+function update_cart_storage(localstorage_obj_index, cart_obj)
+{
+	if (typeof(Storage) !== "undefined")
+	{
+		localStorage.setItem(localstorage_obj_index, JSON.stringify(cart_obj) );
+	} else {
+		return null;
+	}
+}
 $(document).ready(function(){
 	device_height = ((document.body.clientWidth / 16) * 9);
 	init_acuity(chubbies_json);
@@ -68,6 +76,7 @@ $(document).ready(function(){
 		if(current_item != null)
 		{
 			cart_items.push(current_item);
+			update_cart_storage("cart_obj", cart_items);
 			$('#products_cart').text(cart_items.length);
 			setTimeout(resume_playback, 10);
 		}
@@ -123,6 +132,11 @@ function detect_mousedown(e){
 
 	if( $(e.target).attr('id') == 'checkout' || $(e.target).hasClass('glyphicon-repeat') )
 	{
+		if($(e.target).attr('id') == 'checkout')
+		{
+			location.href = "/checkout";
+		}
+
 		return;
 	}
 
@@ -137,6 +151,7 @@ function detect_mousedown(e){
 		video_started = true;
 		video.prop("volume", 0.25);
 		video.trigger("play");
+		update_cart_storage("cart_obj", null);
 		return;
 	}
 
@@ -191,6 +206,12 @@ function detect_mouseup(e){
 	{
 		mousedown = false;
 		allow_drag = false;
+
+		console.log('food');
+		if($(e.target).attr('id') == 'checkout')
+		{
+			location.href = "/checkout";
+		}
 		return;
 	}
 

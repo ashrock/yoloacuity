@@ -29,6 +29,7 @@ button {
   width: 50%;
   text-align: right;
   padding: 40px;
+  vertical-align: top;
 }
 #checkout_form #customer_information_block > * {
   text-align: left;
@@ -45,6 +46,17 @@ button {
 #checkout_form #customer_information_block .breadcrumbs_list li {
   display: inline-block;
 }
+#checkout_form #customer_information_block .breadcrumbs_list li * {
+  color: #999999;
+  font-size: 12px;
+  vertical-align: middle;
+}
+#checkout_form #customer_information_block .breadcrumbs_list li svg {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  margin: 0px 5px;
+}
 #checkout_form #customer_information_block #customer_info_list {
   list-style: none;
   padding-left: 0;
@@ -54,8 +66,30 @@ button {
 }
 #checkout_form #customer_information_block #customer_info_list li input {
   display: table-cell;
+  width: 48.9%;
+  margin-left: 8px;
+}
+#checkout_form #customer_information_block #customer_info_list li input:only-child {
+  width: 100%;
+  margin: 0px;
+}
+#checkout_form #customer_information_block #customer_info_list li input:first-child {
+  margin: 0px;
+}
+#checkout_form #customer_information_block #customer_info_list li input.address {
+  width: 65%;
+}
+#checkout_form #customer_information_block #customer_info_list li input.address_optional {
+  width: 32.8%;
+}
+#checkout_form #customer_information_block #customer_info_list li input[type="submit"] {
+  padding: 20px;
+  width: 45%;
+  border-radius: 4px;
+  font-weight: bold;
 }
 #checkout_form #products_information_block {
+  vertical-align: top;
   background: #FAFAFA;
   border-left: 1px solid #E1E1E1;
   display: table-cell;
@@ -77,8 +111,51 @@ button {
   padding-bottom: 20px;
   margin-bottom: 0;
 }
+#checkout_form #products_information_block #products_list li {
+  margin-top: 16px;
+}
+#checkout_form #products_information_block #products_list li:first-child {
+  margin-top: 0px;
+}
 #checkout_form #products_information_block #products_list li > * {
   display: table-cell;
+  vertical-align: middle;
+}
+#checkout_form #products_information_block #products_list li .image_block {
+  width: 80px;
+  padding-right: 16px;
+}
+#checkout_form #products_information_block #products_list li .image_block .image_content {
+  height: 64px;
+  width: 64px;
+  border-radius: 8px;
+  border: 1px solid #E4E4E4;
+  overflow: hidden;
+}
+#checkout_form #products_information_block #products_list li .image_block .image_content .product_count {
+  position: absolute;
+  margin-top: -10px;
+  margin-left: 53px;
+  display: block;
+  border-radius: 100%;
+  background: #A3A3A3;
+  color: #fff;
+  line-height: 22px;
+  text-align: center;
+  width: 22px;
+}
+#checkout_form #products_information_block #products_list li .image_block .image_content img {
+  width: 100%;
+  height: 100%;
+}
+#checkout_form #products_information_block #products_list li .product_details {
+  width: 78%;
+}
+#checkout_form #products_information_block #products_list li .product_details * {
+  line-height: 16px;
+}
+#checkout_form #products_information_block #products_list li .product_details .product_size {
+  color: #969696;
 }
 #checkout_form #products_information_block #code_block {
   padding: 20px 0px;
@@ -95,16 +172,37 @@ button {
   margin-left: 10px;
   width: 85px;
 }
-#checkout_form #products_information_block #checkout_table tr td {
+#checkout_form #products_information_block #checkout_table tbody {
   padding: 10px 0px;
+}
+#checkout_form #products_information_block #checkout_table tbody tr td {
+  color: #717171;
+  padding: 10px 0px 10px;
   text-align: right;
 }
-#checkout_form #products_information_block #checkout_table tr td:first-child {
+#checkout_form #products_information_block #checkout_table tbody tr td:first-child {
   text-align: left;
 }
-#checkout_form #products_information_block #checkout_table tr#total_price {
+#checkout_form #products_information_block #checkout_table tbody tr:first-child td {
+  padding: 10px 0px 0px;
+}
+#checkout_form #products_information_block #checkout_table tfoot #total_price_block {
   border-top: 1px solid #E1E1E1;
 }
-#checkout_form #products_information_block #checkout_table tr#total_price td {
+#checkout_form #products_information_block #checkout_table tfoot #total_price_block td {
+  color: #4b4b4b;
   padding: 20px 0px;
+  font-size: 24px;
+  text-align: right;
+}
+#checkout_form #products_information_block #checkout_table tfoot #total_price_block td:first-child {
+  text-align: left;
+  font-size: 16px;
+}
+#checkout_form #products_information_block #checkout_table tfoot #total_price_block td#total_price:before {
+  content: 'USD';
+  display: inline-block;
+  font-size: 14px;
+  color: #969696;
+  margin-right: 10px;
 }
