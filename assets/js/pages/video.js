@@ -210,7 +210,7 @@ function detect_mouseup(e){
 		console.log('food');
 		if($(e.target).attr('id') == 'checkout')
 		{
-			location.href = "/checkout";
+			location.href = "/checkout.php";
 		}
 		return;
 	}
