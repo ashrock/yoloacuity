@@ -134,7 +134,7 @@ function detect_mousedown(e){
 	{
 		if($(e.target).attr('id') == 'checkout')
 		{
-			location.href = "/checkout";
+			location.href = "/checkout.php";
 		}
 
 		return;
