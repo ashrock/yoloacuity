@@ -40,7 +40,9 @@
 							<input type="text" placeholder="City">
 						</li>
 						<li>
-							<select name="" id=""></select>
+							<select name="" id="">
+								<option value="">United States</option>
+							</select>
 							<input type="text" placeholder="Postal code">
 						</li>
 						<li>
