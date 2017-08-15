@@ -102,6 +102,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+		var site_url = "<?= sprintf( "%s://%s", (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http', $_SERVER['SERVER_NAME'] ) ?>";
 		function populate_products_list(product_items, last_index){
 			var sub_total_price = 0;
 			for(var i_id in product_items)
@@ -110,23 +111,9 @@
 
 				var products_item_clone = $("#products_list_item_clone").clone();
 				products_item_clone.removeAttr('id');
-				console.log(product_item.Url)
-				var img_url = '';
-				$.ajax({
-					type:     "GET",
-					url:      product_item.Url,
-					dataType: "html",
-					success: function(data){
-						img_url = $(data).find('.product-slider__image:eq(0) img').attr('data-src').replace('//','https://');
-						console.log(img_url);
-					},
-					error: function(data){
-						console.log("URL unavailable");
-					}
-				});
 
 				products_item_clone
-					.find('img').attr('src', img_url).attr('title', img_url).end()
+					.find('img').attr('src', site_url +'/assets/img/'+ product_item.Src).end()
 					.find('.product_name').text(product_item.Name).end()
 					.find('.product_price_value').text(product_item.Price).end()
 					.find('.product_count').text(product_item.count);
