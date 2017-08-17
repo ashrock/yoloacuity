@@ -71,6 +71,7 @@ $(document).ready(function(){
 	device_height = ((document.body.clientWidth / 16) * 9);
 	init_acuity(chubbies_json);
 	$('#video_wrapper').css('height', device_height +"px");
+	$('#products_wrapper ').css('height', (device_height - 30) +"px");
 
 	$('body').on('click','#dismiss_cart', resume_playback);
 
@@ -89,6 +90,22 @@ $(document).ready(function(){
 		video.trigger("load").trigger("play");
 	});
 
+	$('video').bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(e) {
+		var state = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+		var event = state ? 'FullscreenOn' : 'FullscreenOff';
+
+		// exit full-screen
+		if (document.exitFullscreen) {
+			document.exitFullscreen();
+		} else if (document.webkitExitFullscreen) {
+			document.webkitExitFullscreen();
+		} else if (document.mozCancelFullScreen) {
+			document.mozCancelFullScreen();
+		} else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		}
+	});
+
 	$('body').on('mousemove', detect_mousemove).on('touchmove', detect_mousemove);
 
 	$('body').on('mousedown', detect_mousedown ).on('touchstart', detect_mousedown);
@@ -102,12 +119,14 @@ function detect_mousemove(e){
 
 	if(mousedown == true && allow_drag == true)
 	{
-		if(down_count < 6)
+		var threshold = (e.type == "touchmove") ? 10 : 6;
+		if(down_count <= threshold)
 		{
 			video_playing = true;
 			video.trigger("play");
 			return;
 		}
+
 		video[0].playbackRate = 0.25;
 
 		video_playing = false;
@@ -131,15 +150,13 @@ function detect_mousemove(e){
 
 		$('#playback_container').css('width', ((adjusted_scrub_time/video[0].duration) * 100) +"%" );
 
-		if(e.type == "mousemove")
-		{
-			has_dragged = true;
-		}
+		has_dragged = true;
 	}
 }
 
 function increment_count(){
 	down_count++;
+	$('#down').text(down_count);
 	down_timer = setTimeout(function(){
 		increment_count();
 	}, 10);
@@ -150,6 +167,7 @@ function detect_mousedown(e){
 	var raw_current_time = video[0].currentTime;
 	var currentTime = parseInt(raw_current_time * 24) ;
 	increment_count();
+
 	if( $(e.target).attr('id') == 'checkout' || $(e.target).hasClass('glyphicon-repeat') )
 	{
 		if($(e.target).attr('id') == 'checkout')
@@ -184,6 +202,13 @@ function detect_mousedown(e){
 	if( has_item_match == false)
 	{
 		$('#playback_container').addClass('active');
+		if(has_dragged)
+		{
+			has_dragged = false;
+			video_playing = true;
+			video.trigger("play");
+			return;
+		}
 
 		if(allow_drag == false)
 		{
@@ -192,6 +217,7 @@ function detect_mousedown(e){
 	}
 	else
 	{
+		has_dragged = false;
 		allow_drag = false;
 		video_playing = false;
 		video.trigger("pause");
@@ -207,6 +233,7 @@ function detect_mousedown(e){
 		scrub_time = parseInt(video[0].currentTime);
 	}
 }
+
 function detect_mouseup(e){
 	down_count = 0;
 	clearTimeout(down_timer);
@@ -242,7 +269,8 @@ function detect_mouseup(e){
 	if(has_dragged)
 	{
 		$('#video').trigger("pause");
-		has_dragged = false;
+		// has_dragged = false;
+		return;
 	}
 
 	if(allow_drag)

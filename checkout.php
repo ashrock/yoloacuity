@@ -113,7 +113,7 @@
 				products_item_clone.removeAttr('id');
 
 				products_item_clone
-					.find('img').attr('src', site_url +'/assets/img/'+ product_item.Src).end()
+					.find('img').attr('src', site_url +'/assets/img/'+ product_item.Name +'.jpg').end()
 					.find('.product_name').text(product_item.Name).end()
 					.find('.product_price_value').text(product_item.Price).end()
 					.find('.product_count').text(product_item.count);

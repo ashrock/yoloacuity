@@ -17,18 +17,22 @@
 	<div id="wrapper">
 		<div id="video_container">
 			<div id="video_wrapper">
+				<video id="video" preload="metadata" playsinline>
+					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
+				</video>
 				<div id="play_wrapper">
 					<div id="play_button" class="glyphicon glyphicon-play"></div>
 				</div>
 				<div id="products_wrapper">
 					<div id="line_layer"></div>
 					<div id="products_cart" class="glyphicon glyphicon-shopping-cart">0</div>
+					<div id="debugger">
+						<div id="down"></div>
+						<div id="has_dragged"></div>
+					</div>
 					<div id="products_container"></div>
 					<div id="playback_container" class="active"></div>
 				</div>
-				<video id="video" preload="metadata" playsinline>
-					<source src="assets/videos/chubbies-marshup-2017.mp4" type='video/mp4;'>
-				</video>
 			</div>
 		</div>
 		<div class="modal" id="product_modal" tabindex="-1" role="dialog">
