@@ -13,14 +13,14 @@
 <body>
 	<script type="text/javascript">
 		var chubbies_json = {};
-		var prompt_password = prompt("Enter site password");
+		/*var prompt_password = prompt("Enter site password");
 
 		$.post('check_password.php', {password : prompt_password} , function(data){
 			if(data.status == false)
 			{
 				$('html').remove();
 			}
-		}, 'json');
+		}, 'json');*/
 	</script>
 	<div id="wrapper">
 		<div id="video_container">
@@ -33,7 +33,12 @@
 				</div>
 				<div id="products_wrapper">
 					<div id="line_layer"></div>
-					<div id="products_cart" class="glyphicon glyphicon-shopping-cart">0</div>
+					<div id="cart_toggle_block">
+						<input type="checkbox" id="cart_toggle_checkbox">
+						<label for="cart_toggle_checkbox" id="toggle_color">
+							<div id="products_cart" class="glyphicon glyphicon-shopping-cart">0</div>
+						</label>
+					</div>
 					<div id="debugger">
 						<div id="down"></div>
 						<div id="has_dragged"></div>

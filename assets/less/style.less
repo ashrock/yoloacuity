@@ -79,23 +79,78 @@ body{
 					top: 0px;
 					z-index: 1010;
 
-					#products_cart{
-						background: yellow;
-						border-radius: 100%;
-						font-family: Arial;
-						font-size: 2vw;
-						font-weight: bold;
-						height: 6vw;
-						line-height: 6vw;
+					#cart_toggle_block{
 						position: absolute;
-						right: 15px;
-						text-align: center;
 						top: 7%;
-						width: 6vw;
+						right: 0.5vw;
+						border: 0.5vw solid #9E9E9E;
+						border-radius: 3.5vw;
+						box-shadow: 0 0.25vw 1vw #333;
 
-						&:before{
-							font-family: 'Glyphicons Halflings';
-							margin-right: 3px;
+						*{
+							-webkit-touch-callout: none; /* iOS Safari */
+							-webkit-user-select: none; /* Safari */
+							-khtml-user-select: none; /* Konqueror HTML */
+							-moz-user-select: none; /* Firefox */
+							-ms-user-select: none; /* Internet Explorer/Edge */
+							user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+						}
+
+						input[type="checkbox"]{
+							display: none;
+							&:checked + #toggle_color{
+								text-align: right;
+								background: #00E676;
+								&:before{
+									content: "ON";
+									width: 4vw;
+									display: inline-block;
+									text-align: left;
+								}
+								&:after{
+									display: none;
+								}
+							}
+						}
+
+						#toggle_color{
+							background: #EF5350;
+							border-radius: 3vw;
+							font-size: 1.75vw;
+							height: 6vw;
+							text-align: left;
+							transition: background 0.25s;
+							-webkit-transition: background 0.25s;
+							width: 12vw;
+							margin-bottom: 0;
+							cursor: pointer;
+							box-shadow: inset 0.25vw 0.25vw 0.25vw rgba(0, 0, 0, 0.25);
+
+							&:after{
+								content: "OFF";
+								width: 4vw;
+								display: inline-block;
+								text-align: right;
+								color: #fff;
+							}
+
+							#products_cart{
+								background: yellow;
+								border-radius: 100%;
+								display: inline-block;
+								font-family: Arial;
+								font-size: 1.75vw;
+								font-weight: bold;
+								height: 6vw;
+								line-height: 6vw;
+								text-align: center;
+								width: 6vw;
+
+								&:before{
+									font-family: 'Glyphicons Halflings';
+									margin-right: 3px;
+								}
+							}
 						}
 					}
 					#debugger{
@@ -109,6 +164,7 @@ body{
 						}
 
 					}
+
 					#playback_container{
 						height: 100%;
 						height: 100vh;
@@ -151,6 +207,16 @@ body{
 
 	#checkout_modal{
 		background: transparent;
+
+		*{
+			-webkit-touch-callout: none; /* iOS Safari */
+			-webkit-user-select: none; /* Safari */
+			-khtml-user-select: none; /* Konqueror HTML */
+			-moz-user-select: none; /* Firefox */
+			-ms-user-select: none; /* Internet Explorer/Edge */
+			user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+		}
+
 		.modal-dialog{
 			width: 450px;
 			margin: 20px auto;
