@@ -102,7 +102,7 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		var site_url = "<?= sprintf( "%s://%s", (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http', $_SERVER['SERVER_NAME'] ) ?>";
+		var site_url = "<?= ($_SERVER['SERVER_NAME'] != "_") ? sprintf( "%s://%s", (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http', $_SERVER['SERVER_NAME'] ) : '' ?>";
 		function populate_products_list(product_items, last_index){
 			var sub_total_price = 0;
 			for(var i_id in product_items)
