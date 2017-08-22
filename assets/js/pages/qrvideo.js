@@ -37,7 +37,10 @@ var down_timer = null;
 var video_player = document.getElementById('video');
 var cart_enabled = false;
 video_player.addEventListener('ended', function(){
-	showCheckout();
+	if(show_qr_results)
+	{
+		showCheckout();
+	}
 });
 
 video_player.addEventListener('playing', function(){
@@ -360,6 +363,13 @@ function checkForProducts(e, currentTime)
 
 function videoTimeUpdate(e)
 {
+	$('#qr_result').html("");
+	// qr_results[ video_player ]
+	if( show_qr_results )
+	{
+		$('#qr_result').html( qr_results[ Math.round(video_player.currentTime)] );
+		// console.log( Math.round(video_player.currentTime) );
+	}
 	//set controls settings to controls,this make controls show everytime this event is triggered
 	// video_player.setAttribute("controls","controls");
 }

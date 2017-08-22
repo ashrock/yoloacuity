@@ -45,14 +45,15 @@
 					<div id="debugger">
 						<div id="down"></div>
 						<div id="has_dragged"></div>
+						<div id="qr_result"></div>
 					</div>
 					<div id="products_container"></div>
 					<div id="playback_container" class="active"></div>
 				</div>
 			</div>
 		</div>
-		<canvas id="qr-canvas"></canvas>
-		<div id="screenShots"></div>
+		<canvas id="qrcanvas" class="hidden"></canvas>
+		<div id="screenShots" class="hidden"></div>
 		<img src="" alt="" id="qrscreenshot">
 		<div class="modal" id="product_modal" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
@@ -91,93 +92,85 @@
 	<script src="./assets/js/pages/chubbies_data_8.js" type="text/javascript"></script>
 	<script type="text/javascript">
 		var video_ended = false;
-		var allow_screenshot = false;
+		var show_qr_results = false;
 		var video = document.getElementById("video");
 		video.addEventListener("loadedmetadata", initScreenshot);
-		video.addEventListener("canplaythrough", function(){
-			video.play();
-		});
-		video.addEventListener("playing", grabScreenshot);
-		video.addEventListener("pause", stopScreenshot);
-		video.addEventListener("ended", stopScreenshot);
-		video.addEventListener("progress", function(){
-			console.log(video.buffered, video.seekable);
-		});
-
-		video.addEventListener("waiting", function(){
-			console.log('waiting');
-			// video.pause();
-		});
 		var screenshot_array = [];
+		var qr_results = [];
 
-		var canvas = document.getElementById("qr-canvas");
+		var canvas = document.getElementById("qrcanvas");
 		var ctx = canvas.getContext("2d");
-		var ssContainer = document.getElementById("screenShots");
 		var videoHeight, videoWidth;
 		var drawTimer = null;
-		var qr = new QCodeDecoder();
+
 		function initScreenshot() {
 			console.log("Init Screenshot");
-			/*var _docHeight = (document.height !== undefined) ? document.height : document.body.offsetHeight;
-			var _docWidth = (document.width !== undefined) ? document.width : document.body.offsetWidth;
-			videoHeight = _docHeight;
-			videoWidth = _docWidth;
-			canvas.width = videoWidth;
-			canvas.height = videoHeight;*/
 			videoHeight = video.videoHeight;
 			videoWidth = video.videoWidth;
-			/*canvas.width = videoWidth / 4;
-			canvas.height = videoHeight / 4;*/
 			canvas.width = 235;
 			canvas.height = 235;
+			processFrame();
 		}
 
-		function startScreenshot() {
-	    	drawTimer = setTimeout(function(){
-	    		grabScreenshot();
-	    	}, 125);
-		}
+		var video_frames = [];
+		var process_timeout = null;
+		var frame_count = 0;
 
-		function stopScreenshot() {
-			console.log(screenshot_array);
-			video_ended = true;
-		  if (drawTimer) {
-		    clearTimeout(drawTimer);
-		    drawTimer = null;
-		  }
-		}
-		function grabScreenshot() {
-			// if(allow_screenshot)
-			{
-				var img = document.getElementById('qrscreenshot');
-				/*var frame = captureVideoFrame('video', 'jpeg');
-				var dataUrl = frame.dataUri;
-				console.log(frame);
-				*/
+		var frame_rate = 24;
+		function processFrame()
+		{
+			video.currentTime = frame_count/frame_rate;
+			setTimeout(function(){
 				ctx.drawImage(video, 0, 0, 1349, 759);
-				/*var dataUrl = canvas.toDataURL("image/jpg");
-				qr.decodeFromImage(dataUrl, function (err, result) {
-					if (err) {
-						// Show the image
-						img.setAttribute('src', dataUrl);
-						console.log(err);
-						return;
-					}
+				var dataUrl = canvas.toDataURL("image/jpeg");
 
-					console.log(result);
-				});*/
+				$('#screenShots').append('<img src="'+ dataUrl +'" alt="" id="'+ frame_count/frame_rate +'"/>');
+				video_frames.push(dataUrl);
 
-				if(video_ended)
+				if(frame_count/frame_rate >= video.duration)
 				{
-					clearTimeout(drawTimer);
+					decodeFrames();
+					return;
 				}
-				else
-				{
-					drawTimer = setTimeout(grabScreenshot, 125);
-				}
-			}
+
+				frame_count++;
+				process_timeout = setTimeout(processFrame, (1000/frame_rate));
+			}, (1000/frame_rate));
 		}
 
+		function decodeFrames()
+		{
+			console.log('length', video_frames.length);
+			var frame_count = 0;
+			var total_frames = $('#screenShots').find('img').length;
+			$('#screenShots').find('img').each(function(){
+				var img_tag = $(this);
+				var qr = new QCodeDecoder();
+
+				if(frame_count == (total_frames - 1))
+				{
+					show_qr_results = true;
+					video.currentTime = 0;
+					console.log(qr_results);
+					console.log('Video may now be played.');
+					setTimeout(function(){
+						video.play();
+					}, 10);
+					return;
+				}
+				frame_count++;
+
+				qr.decodeFromImage(img_tag.attr('src'), function (err, result) {
+					if (err) {
+					}
+					else
+					{
+						qr_results[ Math.round(img_tag.attr('id')) ] = result;
+						console.log(img_tag, result);
+					}
+				});
+			});
+		}
 	</script>
 </body>
 </html>
