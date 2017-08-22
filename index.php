@@ -13,14 +13,14 @@
 <body>
 	<script type="text/javascript">
 		var chubbies_json = {};
-		var prompt_password = prompt("Enter site password");
+		/*var prompt_password = prompt("Enter site password");
 
 		$.post('check_password.php', {password : prompt_password} , function(data){
 			if(data.status == false)
 			{
 				$('html').remove();
 			}
-		}, 'json');
+		}, 'json');*/
 	</script>
 	<div id="wrapper">
 		<div id="video_container">
