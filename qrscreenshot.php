@@ -15,14 +15,6 @@
 <body>
 	<script type="text/javascript">
 		var chubbies_json = {};
-		/*var prompt_password = prompt("Enter site password");
-
-		$.post('check_password.php', {password : prompt_password} , function(data){
-			if(data.status == false)
-			{
-				$('html').remove();
-			}
-		}, 'json');*/
 	</script>
 	<div id="wrapper">
 		<div id="video_container">
@@ -45,14 +37,16 @@
 					<div id="debugger">
 						<div id="down"></div>
 						<div id="has_dragged"></div>
-						<div id="qr_result"></div>
 					</div>
 					<div id="products_container"></div>
-					<div id="playback_container" class="active"></div>
+					<div id="qr_result_container">
+						<div id="qr_result">Processing video...</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<canvas id="qrcanvas" class="hidden"></canvas>
+		<canvas id="qrcanvas" class=""></canvas>
+		<canvas id="adjustment_canvas" class="hidden"></canvas>
 		<div id="screenShots" class="hidden"></div>
 		<img src="" alt="" id="qrscreenshot">
 		<div class="modal" id="product_modal" tabindex="-1" role="dialog">
@@ -99,7 +93,9 @@
 		var qr_results = [];
 
 		var canvas = document.getElementById("qrcanvas");
+		var adjustment_canvas = document.getElementById("adjustment_canvas");
 		var ctx = canvas.getContext("2d");
+		var adjustment_ctx = adjustment_canvas.getContext("2d");
 		var videoHeight, videoWidth;
 		var drawTimer = null;
 
@@ -107,8 +103,10 @@
 			console.log("Init Screenshot");
 			videoHeight = video.videoHeight;
 			videoWidth = video.videoWidth;
-			canvas.width = 235;
-			canvas.height = 235;
+			canvas.width = 232;
+			canvas.height = 232;
+			adjustment_canvas.width = 232;
+			adjustment_canvas.height = 232;
 			processFrame();
 		}
 
@@ -122,7 +120,25 @@
 			video.currentTime = frame_count/frame_rate;
 			setTimeout(function(){
 				ctx.drawImage(video, 0, 0, 1349, 759);
-				var dataUrl = canvas.toDataURL("image/jpeg");
+
+				adjustment_ctx.drawImage(video,0,0,1349,759);
+				// Grab the pixel data from the backing canvas
+				var idata = adjustment_ctx.getImageData(0,0,1349,759);
+				var data = idata.data;
+				// Loop through the pixels, turning them grayscale
+				for(var i = 0; i < data.length; i+=4) {
+				    var r = data[i];
+				    var g = data[i+1];
+				    var b = data[i+2];
+				    var brightness = (3*r+4*g+b)>>>3;
+				    data[i] = brightness;
+				    data[i+1] = brightness;
+				    data[i+2] = brightness;
+				}
+				idata.data = data;
+				// Draw the pixels onto the visible canvas
+				ctx.putImageData(idata,0,0);
+				var dataUrl = canvas.toDataURL("image/jpeg",0.25);
 
 				$('#screenShots').append('<img src="'+ dataUrl +'" alt="" id="'+ frame_count/frame_rate +'"/>');
 				video_frames.push(dataUrl);
@@ -140,7 +156,7 @@
 
 		function decodeFrames()
 		{
-			console.log('length', video_frames.length);
+			$('#qr_result').html('');
 			var frame_count = 0;
 			var total_frames = $('#screenShots').find('img').length;
 			$('#screenShots').find('img').each(function(){

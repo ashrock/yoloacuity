@@ -157,6 +157,7 @@ body #wrapper #video_container #video_wrapper #products_wrapper #cart_toggle_blo
   margin-right: 3px;
 }
 body #wrapper #video_container #video_wrapper #products_wrapper #debugger {
+  display: none;
   padding: 10px;
   background: rgba(255, 255, 255, 0.5);
   height: 50px;
@@ -164,6 +165,16 @@ body #wrapper #video_container #video_wrapper #products_wrapper #debugger {
 }
 body #wrapper #video_container #video_wrapper #products_wrapper #debugger * {
   font-weight: bold;
+}
+body #wrapper #video_container #video_wrapper #products_wrapper #qr_result_container {
+  text-align: center;
+}
+body #wrapper #video_container #video_wrapper #products_wrapper #qr_result_container #qr_result {
+  display: inline-block;
+  line-height: 100vh;
+  font-size: 10vh;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.75);
 }
 body #wrapper #video_container #video_wrapper #products_wrapper #playback_container {
   height: 100%;

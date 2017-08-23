@@ -163,7 +163,7 @@ function detect_mousemove(e){
 
 function increment_count(){
 	down_count++;
-	$('#down').text(down_count);
+	// $('#down').text(down_count);
 	down_timer = setTimeout(function(){
 		increment_count();
 	}, 10);
@@ -363,10 +363,10 @@ function checkForProducts(e, currentTime)
 
 function videoTimeUpdate(e)
 {
-	$('#qr_result').html("");
 	// qr_results[ video_player ]
 	if( show_qr_results )
 	{
+		$('#qr_result').html("");
 		$('#qr_result').html( qr_results[ Math.round(video_player.currentTime)] );
 		// console.log( Math.round(video_player.currentTime) );
 	}
